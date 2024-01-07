@@ -9,12 +9,18 @@ import argparse
 
 # Setting the bmsID, CAN channel and bustype (bitrate is default 250k)
 bms_id = 0x1806E5F4
-bus = can.interface.Bus(channel='can0', bustype='socketcan', bitrate=250000)
+bus = can.interface.Bus(channel='vcan0', bustype='socketcan', bitrate=250000)
 data_message = bytearray([0x03, 0xE8, 0x02, 0x58, 0x00, 0x01, 0x00, 0x00]) #0x01 for HEATING MODE
 can_message = can.Message(arbitration_id=bms_id, data=data_message, is_extended_id=True)
 
 #heat enable first, then disable:
-def startCharging(voltage=1000, amperage=600, mode='h', time=300):
+def startCharging(voltage=100, amperage=60, mode='h', time=300):
+	decimal_value = int(args.voltage) * 10
+	byte1 = (decimal_value >> 8) & 0xFF
+	byte2 = decimal_value & 0xFF 
+
+	print('/n', format(byte1, '#04x'), format(byte2, '#04x'), '/n')
+
 	if(mode == 'c'):
 		data_message[5] = 0x00
 	# Start the charging mode
@@ -31,10 +37,10 @@ def startCharging(voltage=1000, amperage=600, mode='h', time=300):
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Python code to bypass CAN protocol requirements for smart chargers, thought for TC Chargers.")
-	parser.add_argument("-V", "--voltage", required=True, help="Select the voltage required (it will be divided by 10), eg. '-V 1000' will equal 100.0V. (DEFAULT: 1000)")
-	parser.add_argument("-A", "--amperage", required=True, help="Select the amperage required (it will be divided by 10), eg. '-A 600' will equal 60.0A. (DEFAULT: 600)")
-	parser.add_argument("-m", "--mode", required=True, help="Use '-m h' for heating mode or '-m c' for charging mode. (DEFAULT: Heating mode)")
-	parser.add_argument("-t", "--time", required=True, help="Choose for how much time (in seconds) to keep the charger active. (DEFAULT: 300s=5m)")
+	parser.add_argument("-V", "--voltage", required=False, help="Select the voltage required (it will be divided by 10), eg. '-V 1000' will equal 100.0V. (DEFAULT: 1000)")
+	parser.add_argument("-A", "--amperage", required=False, help="Select the amperage required (it will be divided by 10), eg. '-A 600' will equal 60.0A. (DEFAULT: 600)")
+	parser.add_argument("-m", "--mode", required=False, help="Use '-m h' for heating mode or '-m c' for charging mode. (DEFAULT: Heating mode)")
+	parser.add_argument("-t", "--time", required=False, help="Choose for how much time (in seconds) to keep the charger active. (DEFAULT: 300s=5m)")
 	args = parser.parse_args()
 	startCharging(args.voltage, args.amperage, args.mode, args.time)
 	bus.shutdown()
