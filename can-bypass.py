@@ -10,19 +10,22 @@ import argparse
 # Setting the bmsID, CAN channel and bustype (bitrate is default 250k)
 bms_id = 0x1806E5F4
 bus = can.interface.Bus(channel='vcan0', bustype='socketcan', bitrate=250000)
-data_message = bytearray([0x03, 0xE8, 0x02, 0x58, 0x00, 0x01, 0x00, 0x00]) #0x01 for HEATING MODE
-can_message = can.Message(arbitration_id=bms_id, data=data_message, is_extended_id=True)
 
 #heat enable first, then disable:
 def startCharging(voltage=100, amperage=60, mode='h', time=300):
-	decimal_value = int(args.voltage) * 10
-	byte1 = (decimal_value >> 8) & 0xFF
-	byte2 = decimal_value & 0xFF 
+	decimal_voltage = int(args.voltage) * 10
+	voltage_byte1 = (decimal_voltage >> 8) & 0xFF
+	voltage_byte2 = decimal_voltage & 0xFF
 
-	print('/n', format(byte1, '#04x'), format(byte2, '#04x'), '/n')
+	decimal_amperage = int(args.amperage) * 10
+	amperage_byte1 = (decimal_amperage >> 8) & 0xFF
+	amperage_byte2 = decimal_amperage & 0xFF
+
+	data_message = bytearray([voltage_byte1, voltage_byte2, amperage_byte1, amperage_byte2, 0x00, 0x01, 0x00, 0x00]) #0x01 for HEATING MODE
 
 	if(mode == 'c'):
 		data_message[5] = 0x00
+	can_message = can.Message(arbitration_id=bms_id, data=data_message, is_extended_id=True)
 	# Start the charging mode
 	try:
 		for i in range(time):
