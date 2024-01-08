@@ -9,10 +9,10 @@ import argparse
 
 # Setting the bmsID, CAN channel and bustype (bitrate is default 250k)
 bms_id = 0x1806E5F4
-bus = can.interface.Bus(channel='vcan0', bustype='socketcan', bitrate=250000)
+bus = can.interface.Bus(channel='can0', bustype='socketcan', bitrate=250000)
 
 #heat enable first, then disable:
-def startCharging(voltage=100, amperage=60, mode='h', time=300):
+def startCharging(voltage=100, amperage=60, mode='h', duration=300):
 	decimal_voltage = int(args.voltage) * 10
 	voltage_byte1 = (decimal_voltage >> 8) & 0xFF
 	voltage_byte2 = decimal_voltage & 0xFF
@@ -28,7 +28,7 @@ def startCharging(voltage=100, amperage=60, mode='h', time=300):
 	can_message = can.Message(arbitration_id=bms_id, data=data_message, is_extended_id=True)
 	# Start the charging mode
 	try:
-		for i in range(time):
+		for i in range(int(duration)):
 			print(f"Sending CAN message {i+1}: {can_message}")
 			bus.send(can_message)
 			time.sleep(1)
