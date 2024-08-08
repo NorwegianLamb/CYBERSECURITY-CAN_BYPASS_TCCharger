@@ -49,8 +49,12 @@ You can try running default values for voltage, amperage and time in order to ch
 ```
 python3 can-bypass.py -V 100 -A 60 -m h -t 300
 ```
-If you want to check if the messages are being sent on the CAN bus, run the following command:
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ecc2de95-4c8e-4e6d-8090-de35653ea25c" />
+</p>
+
+Here I was testing the code and checking the **CAN bus** and the **CAN dump** to understand what was going on, you can do so by running:
 ```
 candump can0
 ```
-You should be able to see the packets that the code is sending with the desired values.
