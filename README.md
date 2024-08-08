@@ -58,3 +58,8 @@ Here I was testing the code and checking the **CAN bus** and the **CAN dump** to
 ```
 candump can0
 ```
+And this is the **final result** :)
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/d5272338-c5cc-4f89-8209-063292e1a1ce" width="400" />
+</div>
