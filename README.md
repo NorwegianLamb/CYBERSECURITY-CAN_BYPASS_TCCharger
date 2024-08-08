@@ -14,9 +14,11 @@ The solution is to **force that communication** with an external device and this
   <img src="https://github.com/user-attachments/assets/a6d62f13-05bd-4602-8e1e-35362f9fb004" />
 </p>
 
-These are the instructions that our TC Charger uses to get INPUTs from the BMS, we can take the **BMS ID 0x1806E5F4** and use it to fake the communication.
+These are the instructions that our TC Charger uses to get inputs from the BMS. 
 
-There is a linux package called *can-utils* that uses the **CANSEND** command to send CAN packets, On the raspberry (or whatever you're using to communicate with the TC Charger), you could write:
+We can take the **BMS ID 0x1806E5F4** and use it to fake the communication.
+
+There is a linux package called *can-utils* that uses the **CANSEND command** to send CAN packets, On the raspberry (or whatever you're using to communicate with the TC Charger), you could write:
 ```
 cansend can0 1806E5F4#03E8025800010000
 ```
