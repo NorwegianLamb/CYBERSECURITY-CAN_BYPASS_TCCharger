@@ -1,7 +1,7 @@
 """
 Author: Flavio Gjoni - Electric QDL
 Description: BMS-CAN emulator to deploy, by default, 100V/60A of charge (or custom values)
-Version: 1.1x
+Version: 1.2x
 """
 import time
 import can
