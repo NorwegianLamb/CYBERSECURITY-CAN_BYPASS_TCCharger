@@ -7,7 +7,7 @@ import time
 import can
 import argparse
 
-# Setting the bmsID, CAN channel and bustype (bitrate is default 250k)
+# Setting the bmsID, CAN channel and bustype (bitrate is by default 250k)
 bms_id = 0x1806E5F4
 bus = can.interface.Bus(channel='can0', bustype='socketcan', bitrate=250000)
 
