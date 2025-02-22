@@ -1,4 +1,4 @@
-# CyberSecurity Project: BYPASS CAN Protocol in a TC Charger
+# CyberSecurity Project: BYPASSING CAN Protocol in a TC Charger
 <p align="center">
   <img src="https://github.com/user-attachments/assets/92f92f68-73cb-4e8f-9d7c-70c58feead5b" />
 </p>
